@@ -70,8 +70,9 @@ namespace Metier
             {
                 for (int j = i + 1; j < this.positions.Length; j++)
                 {
-                    if (positions[i] + j - i == positions[j] ||
-                        positions[i] - j - i == positions[j])
+                    int diff = j - i;
+                    if (positions[i] + diff == positions[j] ||
+                        positions[i] - diff == positions[j])
                     {
                         fitness++;
                     }

@@ -8,14 +8,20 @@ namespace Metier
 {
     public class SimulatedAnnealing
     {
-        Board x0;
-        double t0;
-        Board xMin;
-        int fMin;
-        int i;
-        int n1;
-        int n2;
-        double t;
+        private Board x0;
+        private double t0;
+        private Board xMin;
+        private int fMin;
+        private int i;
+        private int n1;
+        private int n2;
+        private double t;
+
+        public Board XMin { get => xMin; set => xMin = value; }
+        public int FMin { get => fMin; set => fMin = value; }
+
+        public event EventHandler minChanged;
+        public event EventHandler haveFinish;
 
         public SimulatedAnnealing(Board x0, double t0, int n1, int n2)
         {
@@ -28,12 +34,12 @@ namespace Metier
 
         private void init()
         {
-            this.xMin = this.x0;
-            this.fMin = this.xMin.finesseNbQueensConflicting();
+            this.XMin = this.x0;
+            this.FMin = this.XMin.finesseNbQueensConflicting();
             this.i = 0;
         }
         
-        public Board start()
+        public void start()
         {
             this.init();
 
@@ -54,10 +60,11 @@ namespace Metier
                     {
                         x = y;
                         fx = fy;
-                        if (fx < this.fMin)
+                        if (fx < this.FMin)
                         {
-                            this.fMin = fx;
-                            this.xMin = x; 
+                            this.FMin = fx;
+                            this.XMin = x;
+                            this.minChanged(this, EventArgs.Empty);
                         }
                     }
                     else
@@ -73,8 +80,8 @@ namespace Metier
                 }
                 t *= 0.98;
             }
-
-            return xMin;
+            this.haveFinish(this, EventArgs.Empty);
+            //return XMin;
         }
     }
 }

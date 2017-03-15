@@ -30,12 +30,14 @@
         {
             this.btnStart = new System.Windows.Forms.Button();
             this.dgvBoard = new System.Windows.Forms.DataGridView();
+            this.lbFit = new System.Windows.Forms.Label();
+            this.lbIsRunning = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBoard)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(86, 39);
+            this.btnStart.Location = new System.Drawing.Point(12, 12);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 0;
@@ -45,17 +47,40 @@
             // 
             // dgvBoard
             // 
+            this.dgvBoard.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvBoard.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvBoard.Location = new System.Drawing.Point(48, 102);
+            this.dgvBoard.Location = new System.Drawing.Point(12, 48);
             this.dgvBoard.Name = "dgvBoard";
-            this.dgvBoard.Size = new System.Drawing.Size(530, 349);
+            this.dgvBoard.Size = new System.Drawing.Size(819, 378);
             this.dgvBoard.TabIndex = 1;
+            // 
+            // lbFit
+            // 
+            this.lbFit.AutoSize = true;
+            this.lbFit.Location = new System.Drawing.Point(714, 21);
+            this.lbFit.Name = "lbFit";
+            this.lbFit.Size = new System.Drawing.Size(35, 13);
+            this.lbFit.TabIndex = 2;
+            this.lbFit.Text = "label1";
+            // 
+            // lbIsRunning
+            // 
+            this.lbIsRunning.AutoSize = true;
+            this.lbIsRunning.Location = new System.Drawing.Point(94, 20);
+            this.lbIsRunning.Name = "lbIsRunning";
+            this.lbIsRunning.Size = new System.Drawing.Size(35, 13);
+            this.lbIsRunning.TabIndex = 3;
+            this.lbIsRunning.Text = "label1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(814, 525);
+            this.ClientSize = new System.Drawing.Size(843, 438);
+            this.Controls.Add(this.lbIsRunning);
+            this.Controls.Add(this.lbFit);
             this.Controls.Add(this.dgvBoard);
             this.Controls.Add(this.btnStart);
             this.Name = "Form1";
@@ -63,6 +88,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvBoard)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -70,6 +96,8 @@
 
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.DataGridView dgvBoard;
+        private System.Windows.Forms.Label lbFit;
+        private System.Windows.Forms.Label lbIsRunning;
     }
 }
 
