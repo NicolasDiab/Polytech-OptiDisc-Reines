@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Metier.Finesse;
+using Metier.Neighbours;
 
 namespace Metier
 {
-    public class SimulatedAnnealing
+    public class SimulatedAnnealing : Algo
     {
+        private NeighboursStrategy neighboursStrategy;
+        private FinesseStrategy finesseStrategy;
         private Board x0;
         private double t0;
-        private Board xMin;
-        private int fMin;
         private int i;
         private int n1;
         private int n2;
         private double t;
 
-        public Board XMin { get => xMin; set => xMin = value; }
-        public int FMin { get => fMin; set => fMin = value; }
-
-        public event EventHandler minChanged;
-        public event EventHandler haveFinish;
+        internal FinesseStrategy FinesseStrategy { get => finesseStrategy; set => finesseStrategy = value; }
+        internal NeighboursStrategy NeighboursStrategy { get => neighboursStrategy; set => neighboursStrategy = value; }
 
         public SimulatedAnnealing(Board x0, double t0, int n1, int n2)
         {
+            this.FinesseStrategy = new NbQueenConflict();
+            this.NeighboursStrategy = new Swap();
             this.x0 = x0;
             this.t0 = t0;
             this.n1 = n1;
@@ -35,25 +36,25 @@ namespace Metier
         private void init()
         {
             this.XMin = this.x0;
-            this.FMin = this.XMin.finesseNbQueensConflicting();
+            this.FMin = this.FinesseStrategy.compute(this.XMin);
             this.i = 0;
         }
         
-        public void start()
+        protected override void algo()
         {
-            this.init();
-
+            this.init();          
             Board x = this.x0;
             Random random = new Random();
-            int fx = x.finesseNbQueensConflicting();
+            int fx = this.FinesseStrategy.compute(x);
 
             for (int k = 0; k < this.n1; k++)
             {
                 for (int l = 0; l < this.n2; l++)
                 {
-                    Board y = x.getRandomNeighbour(x.findNeighboursSwitch());
+                    Board y = this.getRandomNeighbour(this.NeighboursStrategy.compute(x));
 
-                    int fy = y.finesseNbQueensConflicting();
+                    int fy = this.FinesseStrategy.compute(y);
+
 
                     int delta = fy - fx;
                     if (delta <= 0)
@@ -64,7 +65,7 @@ namespace Metier
                         {
                             this.FMin = fx;
                             this.XMin = x;
-                            this.minChanged(this, EventArgs.Empty);
+                            this.notify();
                         }
                     }
                     else
@@ -80,8 +81,11 @@ namespace Metier
                 }
                 t *= 0.98;
             }
-            this.haveFinish(this, EventArgs.Empty);
-            //return XMin;
+        }
+        public Board getRandomNeighbour(List<Board> neighbours)
+        {
+            int i = new Random().Next(0, neighbours.Count);
+            return neighbours.ElementAt(i);
         }
     }
 }

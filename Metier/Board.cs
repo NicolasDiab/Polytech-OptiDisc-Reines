@@ -10,82 +10,40 @@ namespace Metier
     {
         // Tableau de 8 valeurs, où positions[0] donne la valeur de la colonne pour la ligne 0
         private int[] positions;
+        private int y;
+        private int nbQueen;
 
-        public Board(int[] positions)
+        public int[] Positions { get => positions; }
+        public int Y { get => y; }
+        public int NbQueen { get => nbQueen; }
+
+        public Board(int[] positions, int nbQueen, int y)
         {
             this.positions = positions;
+            this.nbQueen = nbQueen;
         }
 
-        public Board()
+        public Board(int nbQueen, int x, int y)
         {
-            // génére soluce
-            this.positions = new int[] { 1,2,3,4,5,6,7,8 };
+            this.positions = this.buildSolution(nbQueen,x,y);
+            this.nbQueen = nbQueen;
+            this.y = y;
         }
 
-        public int[] getPositions()
-        {
+        private int[] buildSolution(int nbQueen, int x, int y) {
+            int[] positions = new int[x];
+
+            for (int i = 0; i < nbQueen; i++) {
+                if (i > x)
+                    throw new Exception("le nombre de dame est supérieur au nombre ligne");
+                if (i > y)
+                    throw new Exception("le nombre de dame est supérieur au nombre colonne");
+                positions[i] = i + 1;
+            }
+
             return positions;
         }
 
-        public bool checkSolution()
-        {
-            return true;
-        }
 
-        //idée 1 : échanger 2 cases du tableau
-        public List<Board> findNeighboursSwitch()
-        {
-            List<Board> neighbours = new List<Board>();
-            for (int i = 0; i < this.positions.Length; i++)
-            {
-                for (int j = i + 1; j < this.positions.Length; j++)
-                {
-                    neighbours.Add(new Board(this.switchPosition(this.positions, i, j)));
-                }
-            }
-            return neighbours;
-        }
-
-        public int[] switchPosition(int[] paramTab, int i, int j)
-        {
-            int[] positions = (int[])paramTab.Clone();
-            int temp = positions[i];
-            positions[i] = positions[j];
-            positions[j] = temp;
-            return positions;
-        }
-
-        public int finesseNbSquaresConflicting()
-        {
-            int fitness = 0;
-            
-            return fitness;
-        }
-
-        public int finesseNbQueensConflicting()
-        {
-            int fitness = 0;
-
-            for (int i = 0; i < this.positions.Length; i++)
-            {
-                for (int j = i + 1; j < this.positions.Length; j++)
-                {
-                    int diff = j - i;
-                    if (positions[i] + diff == positions[j] ||
-                        positions[i] - diff == positions[j])
-                    {
-                        fitness++;
-                    }
-                }
-            }
-
-            return fitness;
-        }
-
-        public Board getRandomNeighbour(List<Board> neighbours)
-        {
-            int i = new Random().Next(0, neighbours.Count);
-            return neighbours.ElementAt(i);
-        } 
     }
 }

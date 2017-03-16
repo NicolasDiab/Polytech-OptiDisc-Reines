@@ -16,53 +16,40 @@ namespace PolytechOptDiscReines
         private int n = 8;
         private int m = 8;
         private Board currentBoard;
+        private Algo algo;
+        private Thread thread;
 
-        private delegate void UpdateDGVDelegateHandler(Board board);
-        private UpdateDGVDelegateHandler UpdateDGVDelegate;
+        private delegate void UpdateDelegateHandler(Board board);
+        private UpdateDelegateHandler UpdateDelegate;
 
-        private delegate void updateIsRunningDelegateHandler(Boolean isRunning);
-        private updateIsRunningDelegateHandler updateIsRunningDelegate;
 
 
         public Form1()
         {
             InitializeComponent();
-            this.UpdateDGVDelegate = new UpdateDGVDelegateHandler(updateDgv);
-            this.updateIsRunningDelegate = new updateIsRunningDelegateHandler(updateIsRunning);
+            this.UpdateDelegate = new UpdateDelegateHandler(update);
         }
 
+        #region Methode with Event 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Board x0 = new Board();
+            Board x0 = new Board(8, this.n, this.m);
             Double t0 = 100;
-            int n1 = 40000;
-            int n2 = 50;
+            int n1 = 10000;
+            int n2 = 100;
 
-            SimulatedAnnealing algo1 = new SimulatedAnnealing(x0, t0, n1, n2);
-            algo1.minChanged += this.updateEvent;
-            algo1.haveFinish += this.updateIsRunningEvent;
-            Thread demoThread =
-                new Thread(new ThreadStart(algo1.start));
-            this.updateIsRunning(true);
-            demoThread.Start();
+            this.algo = new SimulatedAnnealing(x0, t0, n1, n2);
+            this.algo.changed += this.updateEvent;
+            this.thread = new Thread(new ThreadStart(this.algo.start));
+            this.thread.Start();
 
-            /*Board result = algo1.start();
-            this.updateDgv(result);
-            this.lbFit.Text =  result.finesseNbQueensConflicting().ToString();*/
         }
-        
+
         private void updateEvent(object algo, EventArgs args)
         {
             SimulatedAnnealing sa = (SimulatedAnnealing)algo;
-            this.Invoke(this.UpdateDGVDelegate, new object[] { sa.XMin });
+            this.Invoke(this.UpdateDelegate, new object[] { sa.XMin });
         }
-
-        private void updateIsRunningEvent(object algo, EventArgs args)
-        {
-            this.updateEvent(algo, args);
-            this.Invoke(this.updateIsRunningDelegate, new object[] { false });
-        }
-
 
 
         private void Form1_Load(object sender, EventArgs e)
@@ -77,32 +64,36 @@ namespace PolytechOptDiscReines
                 dgvBoard.Columns[i - 1].Width = 40;
 
             }
-            dgvBoard.Rows.Add(m-1);
+            dgvBoard.Rows.Add(m - 1);
         }
+        #endregion
 
-        private void updateDgv(Board board) {
-            if(this.currentBoard != null)
+
+
+        private void update(Board board)
+        {
+            // undraw old board
+            if (this.currentBoard != null)
                 this.drawDgv(this.currentBoard, true);
+            // draw new board
             this.drawDgv(board);
-            this.lbFit.Text = board.finesseNbQueensConflicting().ToString();
-            this.currentBoard = board;          
+            // Show the current fitness
+            this.lbFit.Text = this.algo.FMin.ToString();
+            this.currentBoard = board;
+            // Update the runnin state label
+            this.updateIsRunning(this.algo.IsRunning);
         }
 
-        private void drawDgv(Board board, Boolean white = false) {
-            int[] tab = board.getPositions();
+        private void drawDgv(Board board, Boolean white = false)
+        {
+            int[] tab = board.Positions;
             for (int i = 0; i < tab.Count(); i++)
             {
-                if (white)
+                if (tab[i] > 0)
                 {
-                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.BackColor = Color.White;
-                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.ForeColor = Color.White;
+                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.BackColor = (white) ? Color.White : Color.Green;
+                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.ForeColor = (white) ? Color.White : Color.Black;
                 }
-                else
-                {
-                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.BackColor = Color.Green;
-                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.ForeColor = Color.Black;
-                }
-                
             }
         }
 
@@ -113,6 +104,11 @@ namespace PolytechOptDiscReines
             else
                 this.lbIsRunning.Text = "Fini";
 
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.thread.Abort();
         }
     }
 }
