@@ -8,13 +8,14 @@ namespace Metier.Neighbours
 {
     class Swap : NeighboursStrategy
     {
-        public List<Board> compute(Board board) {
+        public List<Board> compute(Board board, Dictionary<int, int> tabuList = null) {
             List<Board> neighbours = new List<Board>();
             for (int i = 0; i < board.Positions.Length; i++)
             {
                 for (int j = i + 1; j < board.Positions.Length; j++)
                 {
-                    neighbours.Add(new Board(this.switchPosition(board.Positions, i, j),board.NbQueen,board.Y));
+                    if(tabuList == null || !(tabuList[i] == j))
+                        neighbours.Add(new Board(this.switchPosition(board.Positions, i, j),board.NbQueen,board.Y));
                 }
             }
             return neighbours;

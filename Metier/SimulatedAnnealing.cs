@@ -65,6 +65,8 @@ namespace Metier
                         {
                             this.FMin = fx;
                             this.XMin = x;
+                            if (this.FMin == 0)
+                                return;
                             this.notify();
                         }
                     }

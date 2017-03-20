@@ -13,8 +13,7 @@ namespace PolytechOptDiscReines
 {
     public partial class Form1 : Form
     {
-        private int n = 8;
-        private int m = 8;
+        private int n = 10;
         private Board currentBoard;
         private Algo algo;
         private Thread thread;
@@ -33,7 +32,7 @@ namespace PolytechOptDiscReines
         #region Methode with Event 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Board x0 = new Board(8, this.n, this.m);
+            Board x0 = new Board(this.n, this.n, this.n);
             Double t0 = 100;
             int n1 = 10000;
             int n2 = 100;
@@ -64,7 +63,7 @@ namespace PolytechOptDiscReines
                 dgvBoard.Columns[i - 1].Width = 40;
 
             }
-            dgvBoard.Rows.Add(m - 1);
+            dgvBoard.Rows.Add(n - 1);
         }
         #endregion
 

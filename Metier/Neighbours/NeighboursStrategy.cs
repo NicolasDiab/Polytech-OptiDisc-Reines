@@ -8,6 +8,6 @@ namespace Metier.Neighbours
 {
     interface NeighboursStrategy
     {
-        List<Board> compute(Board board);
+        List<Board> compute(Board board, Dictionary<int,int> tabuList = null);
     }
 }
