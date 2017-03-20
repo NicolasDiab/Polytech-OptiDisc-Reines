@@ -39,24 +39,25 @@ namespace Metier
             this.FMin = this.FinesseStrategy.compute(this.XMin);
             this.i = 0;
         }
-        
+
         protected override void algo()
         {
-            this.init();          
+            this.init();
             Board x = this.x0;
             Random random = new Random();
             int fx = this.FinesseStrategy.compute(x);
-
+            int l;
+            Board y;
+            int fy;
+            int delta;
+            double p;
             for (int k = 0; k < this.n1; k++)
             {
-                for (int l = 0; l < this.n2; l++)
+                for (l = 0; l < this.n2; l++)
                 {
-                    Board y = this.getRandomNeighbour(this.NeighboursStrategy.compute(x));
-
-                    int fy = this.FinesseStrategy.compute(y);
-
-
-                    int delta = fy - fx;
+                    y = this.getRandomNeighbour(this.NeighboursStrategy.compute(x));
+                    fy = this.FinesseStrategy.compute(y);
+                    delta = fy - fx;
                     if (delta <= 0)
                     {
                         x = y;
@@ -72,7 +73,7 @@ namespace Metier
                     }
                     else
                     {
-                        double p = random.Next(0, 100) / 100;
+                        p = random.Next(0, 100) / 100;
                         if (p < Math.Exp(-delta / t))
                         {
                             x = y;

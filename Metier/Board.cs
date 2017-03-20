@@ -12,10 +12,19 @@ namespace Metier
         private int[] positions;
         private int y;
         private int nbQueen;
+        private KeyValuePair<int, int> transition;
 
         public int[] Positions { get => positions; }
         public int Y { get => y; }
         public int NbQueen { get => nbQueen; }
+        public KeyValuePair<int, int> Transition { get => transition; set => transition = value; }
+
+        public Board(int[] positions, int nbQueen, int y, KeyValuePair<int,int> transition)
+        {
+            this.positions = positions;
+            this.nbQueen = nbQueen;
+            this.Transition = transition;
+        }
 
         public Board(int[] positions, int nbQueen, int y)
         {

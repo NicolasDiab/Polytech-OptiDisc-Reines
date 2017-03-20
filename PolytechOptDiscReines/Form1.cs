@@ -34,10 +34,11 @@ namespace PolytechOptDiscReines
         {
             Board x0 = new Board(this.n, this.n, this.n);
             Double t0 = 100;
-            int n1 = 10000;
+            int n1 = 1000;
             int n2 = 100;
 
-            this.algo = new SimulatedAnnealing(x0, t0, n1, n2);
+            this.algo = new TabuMethod(x0,n1);
+            //this.algo = new SimulatedAnnealing(x0, t0, n1, n2);
             this.algo.changed += this.updateEvent;
             this.thread = new Thread(new ThreadStart(this.algo.start));
             this.thread.Start();
@@ -46,7 +47,7 @@ namespace PolytechOptDiscReines
 
         private void updateEvent(object algo, EventArgs args)
         {
-            SimulatedAnnealing sa = (SimulatedAnnealing)algo;
+            Algo sa = (Algo)algo;
             this.Invoke(this.UpdateDelegate, new object[] { sa.XMin });
         }
 

@@ -13,21 +13,19 @@ namespace Metier
         private NeighboursStrategy neighboursStrategy;
         private FinesseStrategy finesseStrategy;
         private Board x0;
-        private int n1;
-        private int n2;
+        private int nMax;
         private Dictionary<int, int> tabuList;
 
 
         internal FinesseStrategy FinesseStrategy { get => finesseStrategy; set => finesseStrategy = value; }
         internal NeighboursStrategy NeighboursStrategy { get => neighboursStrategy; set => neighboursStrategy = value; }
 
-        public TabuMethod(Board x0, int n1, int n2)
+        public TabuMethod(Board x0, int nMax)
         {
             this.FinesseStrategy = new NbQueenConflict();
             this.NeighboursStrategy = new Swap();
             this.x0 = x0;
-            this.n1 = n1;
-            this.n2 = n2;
+            this.nMax = nMax;
         }
 
         private void init()
@@ -40,7 +38,7 @@ namespace Metier
 
         protected override void algo()
         {
-            Board x = x0;
+            Board x = this.x0;
             int fx = this.finesseStrategy.compute(x0);
             int i = 0;
             bool end = false;
@@ -53,12 +51,12 @@ namespace Metier
                 }
                 else
                 {
-                    int fy = 0;
+                    int fy = int.MaxValue;
                     Board y = null;
                     neighbourgs.ForEach(n =>
                     {
                         int finesseValue = this.finesseStrategy.compute(n);
-                        if (fy > finesseValue)
+                        if (finesseValue <= fy)
                         {
                             fy = finesseValue;
                             y = n;
@@ -66,14 +64,19 @@ namespace Metier
 
                     });
                     int deltaf = fy - fx;
-                    if(deltaf >= 0)
+                    if (deltaf >= 0)
                     {
-
+                        this.tabuList.Add(y.Transition.Key, y.Transition.Value);
                     }
-
+                    if (fy < this.FMin)
+                    {
+                        this.XMin = y;
+                        this.FMin = fy;
+                    }
+                    x = y;
                 }
-
-            } while (!end);
+                i++;
+            } while (!end && i < nMax);
 
         }
     }
