@@ -10,9 +10,9 @@ namespace Metier
 {
     public class SimulatedAnnealing : Algo
     {
-        const double PROBA = 0.9;
-        const double U = 0.80;
-        const int N2 = 1;
+        const double PROBA = 0.8;
+        const double U = 0.90;
+        const int N2 = 1000;
 
 
         private NeighboursStrategy neighboursStrategy;

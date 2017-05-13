@@ -40,15 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algo.cs" />
+    <Compile Include="Algo\Algo.cs" />
+    <Compile Include="Algo\GeneticAlgo.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Finesse\FinesseStrategy.cs" />
     <Compile Include="Finesse\NbQueenConflict.cs" />
     <Compile Include="Neighbours\Swap.cs" />
     <Compile Include="Neighbours\NeighboursStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulatedAnnealing.cs" />
-    <Compile Include="TabuMethod.cs" />
+    <Compile Include="Algo\SimulatedAnnealing.cs" />
+    <Compile Include="Algo\TabuMethod.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
