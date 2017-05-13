@@ -14,6 +14,7 @@ namespace Metier
         private FinesseStrategy finesseStrategy;
         private Board x0;
         private int nMax;
+        private int currentN;
         private Dictionary<int, int> tabuList;
 
 
@@ -40,7 +41,7 @@ namespace Metier
         {
             Board x = this.x0;
             int fx = this.finesseStrategy.compute(x0);
-            int i = 0;
+            currentN = 0;
             bool end = false;
             do
             {
@@ -75,8 +76,13 @@ namespace Metier
                     }
                     x = y;
                 }
-                i++;
-            } while (!end && i < nMax);
+                currentN++;
+            } while (!end && currentN < nMax);
+        }
+
+        public override string getAdvancement()
+        {
+            return Math.Round(((double)currentN / (double)nMax),3) * 100 + " % " ;
         }
     }
 }

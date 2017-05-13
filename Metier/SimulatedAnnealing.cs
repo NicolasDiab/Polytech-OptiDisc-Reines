@@ -10,9 +10,9 @@ namespace Metier
 {
     public class SimulatedAnnealing : Algo
     {
-        const double PROBA = 0.8;
-        const double U = 0.8;
-        const int N2 = 1000;
+        const double PROBA = 0.9;
+        const double U = 0.80;
+        const int N2 = 1;
 
 
         private NeighboursStrategy neighboursStrategy;
@@ -22,11 +22,13 @@ namespace Metier
         private int i;
         private int n1;
         private int n2;
+        private int currentN1;
         private double step;
         private double t;
 
         internal FinesseStrategy FinesseStrategy { get => finesseStrategy; set => finesseStrategy = value; }
         internal NeighboursStrategy NeighboursStrategy { get => neighboursStrategy; set => neighboursStrategy = value; }
+
 
         public SimulatedAnnealing(Board x0)
         {
@@ -58,7 +60,7 @@ namespace Metier
             int fy;
             int delta;
             double p;
-            for (int k = 0; k < this.n1; k++)
+            for (currentN1 = 0; currentN1 < this.n1; currentN1++)
             {
                 for (l = 0; l < this.n2; l++)
                 {
@@ -111,6 +113,11 @@ namespace Metier
         private double computeStepTemperature(double t0,int delta, double proba,double u)
         {
             return Math.Log(-delta / Math.Log(proba) * t0) / Math.Log(u);
+        }
+
+        public override string getAdvancement()
+        {
+            return Math.Round(((double)currentN1 / (double)n1),3) * 100 + " % | t: " + Math.Round(t ,0) + " / " + Math.Round(t0, 0);
         }
     }
 }

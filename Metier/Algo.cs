@@ -31,6 +31,8 @@ namespace Metier
 
         protected abstract void algo();
 
+        public abstract string getAdvancement();
+
 
     }
 }
