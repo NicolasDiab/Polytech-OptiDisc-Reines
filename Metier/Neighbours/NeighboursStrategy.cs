@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Metier.Neighbours
 {
-    interface NeighboursStrategy
+    public interface NeighboursStrategy
     {
         List<Board> compute(Board board, Dictionary<int,int> tabuList = null);
     }

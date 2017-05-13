@@ -10,16 +10,13 @@ namespace Metier
 {
     public class TabuMethod : Algo
     {
-        private NeighboursStrategy neighboursStrategy;
-        private FinesseStrategy finesseStrategy;
         private Board x0;
         private int nMax;
         private int currentN;
         private Dictionary<int, int> tabuList;
 
 
-        internal FinesseStrategy FinesseStrategy { get => finesseStrategy; set => finesseStrategy = value; }
-        internal NeighboursStrategy NeighboursStrategy { get => neighboursStrategy; set => neighboursStrategy = value; }
+
 
         public TabuMethod(Board x0, int nMax)
         {
@@ -33,7 +30,7 @@ namespace Metier
         {
             this.tabuList = new Dictionary<int, int>();
             this.XMin = x0;
-            this.FMin = finesseStrategy.compute(this.XMin);
+            this.FMin = FinesseStrategy.compute(this.XMin);
             notify();
         }
 

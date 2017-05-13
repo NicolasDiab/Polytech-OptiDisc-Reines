@@ -10,48 +10,45 @@ namespace Metier
     {
         // Tableau de 8 valeurs, où positions[0] donne la valeur de la colonne pour la ligne 0
         private int[] positions;
-        private int y;
-        private int nbQueen;
+        private int n;
         private KeyValuePair<int, int> transition;
 
         public int[] Positions { get => positions; }
-        public int Y { get => y; }
-        public int NbQueen { get => nbQueen; }
+        public int N { get => n; }
         public KeyValuePair<int, int> Transition { get => transition; set => transition = value; }
 
-        public Board(int[] positions, int nbQueen, int y, KeyValuePair<int,int> transition)
+        public Board(int[] positions, int n, KeyValuePair<int,int> transition)
         {
             this.positions = positions;
-            this.nbQueen = nbQueen;
+            this.n = n;
             this.Transition = transition;
         }
 
-        public Board(int[] positions, int nbQueen, int y)
+        public Board(int[] positions, int n)
         {
             this.positions = positions;
-            this.nbQueen = nbQueen;
+            this.n = n;
         }
 
-        public Board(int nbQueen, int x, int y)
+        public Board(int n)
         {
-            this.positions = this.buildSolution(nbQueen,x,y);
-            this.nbQueen = nbQueen;
-            this.y = y;
+            this.positions = this.buildSolution(n);
+            this.n = n;
+
         }
 
-        private int[] buildSolution(int nbQueen, int x, int y) {
-            int[] positions = new int[x];
+        protected virtual int[] buildSolution(int n) {
+            int[] positions = new int[n];
 
-            for (int i = 0; i < nbQueen; i++) {
-                if (i > x)
-                    throw new Exception("le nombre de dame est supérieur au nombre ligne");
-                if (i > y)
-                    throw new Exception("le nombre de dame est supérieur au nombre colonne");
+            for (int i = 0; i < n; i++)
+            {
                 positions[i] = i + 1;
             }
 
             return positions;
         }
+
+
 
 
     }

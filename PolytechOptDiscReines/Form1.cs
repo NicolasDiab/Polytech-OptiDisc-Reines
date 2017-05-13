@@ -33,11 +33,11 @@ namespace PolytechOptDiscReines
         #region Methode with Event 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Board x0 = new Board(this.n, this.n, this.n);
+            Board x0 = new Board(this.n);
 
             this.time = DateTime.Now;
-            //this.algo = new TabuMethod(x0,n1);
-            this.algo = new SimulatedAnnealing(x0);
+            this.algo = new TabuMethod(x0,10000);
+            //this.algo = new SimulatedAnnealing(x0);
             this.algo.changed += this.updateEvent;
             this.thread = new Thread(new ThreadStart(this.algo.start));
             this.thread.Start();

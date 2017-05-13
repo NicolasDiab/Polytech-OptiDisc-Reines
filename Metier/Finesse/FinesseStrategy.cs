@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Metier.Finesse
 {
-    interface FinesseStrategy
+    public interface FinesseStrategy
     {
         int compute(Board position);
     }

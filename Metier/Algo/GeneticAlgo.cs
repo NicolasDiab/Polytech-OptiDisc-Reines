@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Metier.Finesse;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,53 +9,53 @@ namespace Metier
 {
     public class GeneticAlgo : Algo
     {
-        private List<Board> x0;
-        private List<Board> currentGeneration;
-        private int nbGeneration;
-        private int currentNumberGeneration;
 
-        public GeneticAlgo(List<Board> x0, int nbGeneration) {
+        private List<GeneticBoard> firstGeneration;
+        private List<GeneticBoard> currentGeneration;
+        private int nbGeneration;
+        private int currentGenerationNumber;
+
+        public GeneticAlgo(List<GeneticBoard> firstGeneration, int nbGeneration) {
             this.nbGeneration = nbGeneration;
-            this.x0 = x0;
+            this.firstGeneration = firstGeneration;
+            FinesseStrategy = new NbQueenConflict();
         }
 
         public override string getAdvancement()
         {
-            throw new NotImplementedException();
+            return Math.Round(((double)currentGenerationNumber / (double)nbGeneration),3) * 100 + " % ";
         }
 
         protected override void algo()
         {
-            List<Board> nextGeneration;
-            currentGeneration = x0;
-            for (currentNumberGeneration = 0; currentNumberGeneration < nbGeneration; currentNumberGeneration++) {
-                nextGeneration = new List<Board>();
+            List<GeneticBoard> nextGeneration;
+            currentGeneration = firstGeneration;
+            for (currentGenerationNumber = 0; currentGenerationNumber < nbGeneration; currentGenerationNumber++) {
+                nextGeneration = new List<GeneticBoard>();
                 nextGeneration.AddRange(this.reproduction(currentGeneration));
                 nextGeneration.AddRange(this.mutation(currentGeneration));
                 nextGeneration.AddRange(this.crossing(currentGeneration));
-                currentGeneration = this.naturalSelection(nextGeneration);
+                currentGeneration = nextGeneration;
             }
         }
 
-        private List<Board> mutation(List<Board> x)
+
+
+        private List<GeneticBoard> mutation(List<GeneticBoard> x)
         {
             throw new NotImplementedException();
         }
         
 
-        private List<Board> reproduction(List<Board> x)
+        private List<GeneticBoard> reproduction(List<GeneticBoard> x)
         {
             throw new NotImplementedException();
         }
 
-        private List<Board> crossing(List<Board> x)
+        private List<GeneticBoard> crossing(List<GeneticBoard> x)
         {
             throw new NotImplementedException();
         }
 
-        private List<Board> naturalSelection(List<Board> x)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

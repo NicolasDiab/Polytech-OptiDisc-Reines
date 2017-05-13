@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Metier.Finesse
 {
-    class NbQueenConflict : FinesseStrategy
+    public class NbQueenConflict : FinesseStrategy
     {
         public int compute(Board board) {
             int[] positions = board.Positions;
@@ -27,6 +27,11 @@ namespace Metier.Finesse
             }
 
             return fitness;
+        }
+
+        public int compute(GeneticBoard board)
+        {
+            throw new NotImplementedException();
         }
     }
 }

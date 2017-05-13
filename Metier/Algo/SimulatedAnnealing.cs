@@ -14,9 +14,6 @@ namespace Metier
         const double U = 0.90;
         const int N2 = 1000;
 
-
-        private NeighboursStrategy neighboursStrategy;
-        private FinesseStrategy finesseStrategy;
         private Board x0;
         private double t0;
         private int i;
@@ -26,18 +23,15 @@ namespace Metier
         private double step;
         private double t;
 
-        internal FinesseStrategy FinesseStrategy { get => finesseStrategy; set => finesseStrategy = value; }
-        internal NeighboursStrategy NeighboursStrategy { get => neighboursStrategy; set => neighboursStrategy = value; }
-
 
         public SimulatedAnnealing(Board x0)
         {
             this.FinesseStrategy = new NbQueenConflict();
             this.NeighboursStrategy = new Swap();
             this.x0 = x0;
-            this.t0 = this.computeInitTemperature(this.computeDeltaMax(this.x0.NbQueen),PROBA);
+            this.t0 = this.computeInitTemperature(this.computeDeltaMax(this.x0.N),PROBA);
             this.n2 = N2;
-            this.step = computeStepTemperature(t0, this.computeDeltaMax(this.x0.NbQueen), PROBA, U);
+            this.step = computeStepTemperature(t0, this.computeDeltaMax(this.x0.N), PROBA, U);
             this.n1 = (int)( t0 / -step);
             this.t = t0;
         }
