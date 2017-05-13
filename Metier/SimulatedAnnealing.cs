@@ -80,7 +80,7 @@ namespace Metier
                     }
                     else
                     {
-                        p = random.Next(0, 100) / 100;
+                        p = random.Next(0, 10000) / 10000;
                         if (p < Math.Exp(-delta / t))
                         {
                             x = y;

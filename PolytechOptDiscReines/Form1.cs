@@ -17,6 +17,7 @@ namespace PolytechOptDiscReines
         private Board currentBoard;
         private Algo algo;
         private Thread thread;
+        private DateTime time;
 
         private delegate void UpdateDelegateHandler(Board board);
         private UpdateDelegateHandler UpdateDelegate;
@@ -33,9 +34,12 @@ namespace PolytechOptDiscReines
         private void btnStart_Click(object sender, EventArgs e)
         {
             Board x0 = new Board(this.n, this.n, this.n);
-
+            Double t0 = 100;
+            int n1 = 1300;
+            int n2 = 30;
+            this.time = DateTime.Now;
             //this.algo = new TabuMethod(x0,n1);
-            this.algo = new SimulatedAnnealing(x0);
+            this.algo = new SimulatedAnnealing(x0, t0, n1, n2);
             this.algo.changed += this.updateEvent;
             this.thread = new Thread(new ThreadStart(this.algo.start));
             this.thread.Start();
@@ -96,16 +100,24 @@ namespace PolytechOptDiscReines
 
         public void updateIsRunning(Boolean isRunning)
         {
+            this.lbTimer.Text = (DateTime.Now - this.time).TotalSeconds.ToString();
             if (isRunning)
                 this.lbIsRunning.Text = "En Cours";
             else
+            {
                 this.lbIsRunning.Text = "Fini";
+            }
 
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.thread.Abort();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            this.lbTimer.Text = e.ToString();
         }
     }
 }

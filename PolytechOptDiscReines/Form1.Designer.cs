@@ -32,6 +32,7 @@
             this.dgvBoard = new System.Windows.Forms.DataGridView();
             this.lbFit = new System.Windows.Forms.Label();
             this.lbIsRunning = new System.Windows.Forms.Label();
+            this.lbTimer = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBoard)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,7 +60,7 @@
             // lbFit
             // 
             this.lbFit.AutoSize = true;
-            this.lbFit.Location = new System.Drawing.Point(714, 21);
+            this.lbFit.Location = new System.Drawing.Point(796, 22);
             this.lbFit.Name = "lbFit";
             this.lbFit.Size = new System.Drawing.Size(35, 13);
             this.lbFit.TabIndex = 2;
@@ -74,11 +75,21 @@
             this.lbIsRunning.TabIndex = 3;
             this.lbIsRunning.Text = "label1";
             // 
+            // lbTimer
+            // 
+            this.lbTimer.AutoSize = true;
+            this.lbTimer.Location = new System.Drawing.Point(622, 22);
+            this.lbTimer.Name = "lbTimer";
+            this.lbTimer.Size = new System.Drawing.Size(41, 13);
+            this.lbTimer.TabIndex = 4;
+            this.lbTimer.Text = "TIMER";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(843, 438);
+            this.Controls.Add(this.lbTimer);
             this.Controls.Add(this.lbIsRunning);
             this.Controls.Add(this.lbFit);
             this.Controls.Add(this.dgvBoard);
@@ -99,6 +110,7 @@
         private System.Windows.Forms.DataGridView dgvBoard;
         private System.Windows.Forms.Label lbFit;
         private System.Windows.Forms.Label lbIsRunning;
+        private System.Windows.Forms.Label lbTimer;
     }
 }
 
