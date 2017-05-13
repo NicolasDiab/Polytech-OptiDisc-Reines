@@ -73,7 +73,7 @@ namespace Metier
                     }
                     else
                     {
-                        p = random.Next(0, 100) / 100;
+                        p = random.Next(0, 10000) / 10000;
                         if (p < Math.Exp(-delta / t))
                         {
                             x = y;
@@ -82,7 +82,7 @@ namespace Metier
                     }
                     i++;
                 }
-                t *= 0.98;
+                t *= 0.8;
             }
         }
         public Board getRandomNeighbour(List<Board> neighbours)
