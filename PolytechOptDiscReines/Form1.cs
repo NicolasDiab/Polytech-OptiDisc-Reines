@@ -13,7 +13,7 @@ namespace PolytechOptDiscReines
 {
     public partial class Form1 : Form
     {
-        private int n = 10;
+        private int n = 100;
         private Board currentBoard;
         private Algo algo;
         private Thread thread;
@@ -33,12 +33,9 @@ namespace PolytechOptDiscReines
         private void btnStart_Click(object sender, EventArgs e)
         {
             Board x0 = new Board(this.n, this.n, this.n);
-            Double t0 = 100;
-            int n1 = 1000;
-            int n2 = 100;
 
-            this.algo = new TabuMethod(x0,n1);
-            //this.algo = new SimulatedAnnealing(x0, t0, n1, n2);
+            //this.algo = new TabuMethod(x0,n1);
+            this.algo = new SimulatedAnnealing(x0);
             this.algo.changed += this.updateEvent;
             this.thread = new Thread(new ThreadStart(this.algo.start));
             this.thread.Start();

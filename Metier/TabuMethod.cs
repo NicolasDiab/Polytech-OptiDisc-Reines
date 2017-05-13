@@ -77,7 +77,6 @@ namespace Metier
                 }
                 i++;
             } while (!end && i < nMax);
-
         }
     }
 }
