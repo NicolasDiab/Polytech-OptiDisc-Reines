@@ -13,7 +13,6 @@ namespace Metier
         const double PROBA = 0.8;
         const double U = 0.90;
         const int N2 = 1000;
-
         private Board x0;
         private double t0;
         private int i;
@@ -85,8 +84,7 @@ namespace Metier
                     }
                     i++;
                 }
-                t += step;
-                this.notify();
+                t += computeStepTemperature(this.t0,this.FMin,PROBA,U);
             }
         }
 

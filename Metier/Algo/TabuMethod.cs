@@ -31,7 +31,6 @@ namespace Metier
             this.tabuList = new Dictionary<int, int>();
             this.XMin = x0;
             this.FMin = FinesseStrategy.compute(this.XMin);
-            notify();
         }
 
         protected override void algo()     
@@ -76,7 +75,6 @@ namespace Metier
                             end = true;
                             this.currentN = nMax;
                         }
-                        notify();
                     }
                     x = y;
                 }
