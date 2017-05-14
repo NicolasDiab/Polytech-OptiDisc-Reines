@@ -71,8 +71,8 @@ namespace Metier
             for (int i = 0; i < numberCrossOver; i++)
             {
                 // select 2 parents
-                int indexParent1 = rand.Next(0, solutions.Count);
-                int indexParent2 = rand.Next(0, solutions.Count);
+                int indexParent1 = rand.Next(0, solutions.Count - 1);
+                int indexParent2 = rand.Next(0, solutions.Count - 1);
                 GeneticBoard parent1 = solutions[indexParent1];
                 GeneticBoard parent2 = solutions[indexParent2];
 
