@@ -63,18 +63,18 @@
             this.lbFit.AutoSize = true;
             this.lbFit.Location = new System.Drawing.Point(796, 22);
             this.lbFit.Name = "lbFit";
-            this.lbFit.Size = new System.Drawing.Size(35, 13);
+            this.lbFit.Size = new System.Drawing.Size(40, 13);
             this.lbFit.TabIndex = 2;
-            this.lbFit.Text = "label1";
+            this.lbFit.Text = "Fitness";
             // 
             // lbIsRunning
             // 
             this.lbIsRunning.AutoSize = true;
             this.lbIsRunning.Location = new System.Drawing.Point(94, 20);
             this.lbIsRunning.Name = "lbIsRunning";
-            this.lbIsRunning.Size = new System.Drawing.Size(35, 13);
+            this.lbIsRunning.Size = new System.Drawing.Size(62, 13);
             this.lbIsRunning.TabIndex = 3;
-            this.lbIsRunning.Text = "label1";
+            this.lbIsRunning.Text = "Not running";
             // 
             // lbTimer
             // 
@@ -90,9 +90,9 @@
             this.lbState.AutoSize = true;
             this.lbState.Location = new System.Drawing.Point(196, 22);
             this.lbState.Name = "lbState";
-            this.lbState.Size = new System.Drawing.Size(35, 13);
+            this.lbState.Size = new System.Drawing.Size(25, 13);
             this.lbState.TabIndex = 5;
-            this.lbState.Text = "label1";
+            this.lbState.Text = "état";
             // 
             // Form1
             // 
