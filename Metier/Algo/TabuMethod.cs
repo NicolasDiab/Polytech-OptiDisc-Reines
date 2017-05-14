@@ -31,11 +31,11 @@ namespace Metier
             this.tabuList = new Dictionary<int, int>();
             this.XMin = x0;
             this.FMin = FinesseStrategy.compute(this.XMin);
-            notify();
         }
 
-        protected override void algo()
+        protected override void algo()     
         {
+            this.init();
             Board x = this.x0;
             int fx = this.finesseStrategy.compute(x0);
             currentN = 0;
@@ -70,6 +70,11 @@ namespace Metier
                     {
                         this.XMin = y;
                         this.FMin = fy;
+                        if (FMin == 0)
+                        {
+                            end = true;
+                            this.currentN = nMax;
+                        }
                     }
                     x = y;
                 }

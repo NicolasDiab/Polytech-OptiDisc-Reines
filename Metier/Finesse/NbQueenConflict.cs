@@ -31,7 +31,17 @@ namespace Metier.Finesse
 
         public int compute(GeneticBoard board)
         {
+            int[] positions = board.Positions;
+            int i,j,n;
+            n = board.N;
+            for (i = 0; i < n; i++ ) {
+                for (j = 0; j < n; j++)
+                {
+                    int value = positions[i * n + j];
+                }
+            }
             throw new NotImplementedException();
+            
         }
     }
 }

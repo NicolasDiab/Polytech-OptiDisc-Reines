@@ -13,7 +13,6 @@ namespace Metier
         private Board xMin;
         private int fMin;
         private Boolean isRunning;
-        public event EventHandler changed;
 
         protected NeighboursStrategy neighboursStrategy;
         protected FinesseStrategy finesseStrategy;
@@ -24,16 +23,11 @@ namespace Metier
         public FinesseStrategy FinesseStrategy { get => finesseStrategy; set => finesseStrategy = value; }
         public NeighboursStrategy NeighboursStrategy { get => neighboursStrategy; set => neighboursStrategy = value; }
 
-        protected void notify()
-        {
-            this.changed(this, EventArgs.Empty);
-        }
 
         public void start() {
             this.IsRunning = true;
             this.algo();
             this.isRunning = false;
-            this.notify();
         }
 
         protected abstract void algo();

@@ -18,16 +18,20 @@ namespace PolytechOptDiscReines
         private Algo algo;
         private Thread thread;
         private DateTime time;
+        private System.Windows.Forms.Timer timer;
 
-        private delegate void UpdateDelegateHandler(Board board);
-        private UpdateDelegateHandler UpdateDelegate;
+
 
 
 
         public Form1()
         {
             InitializeComponent();
-            this.UpdateDelegate = new UpdateDelegateHandler(update);
+            timer = new System.Windows.Forms.Timer();
+            timer.Interval = 100; // 5 secs
+            timer.Tick += this.timer_Tick;
+                
+            
         }
 
         #region Methode with Event 
@@ -36,18 +40,21 @@ namespace PolytechOptDiscReines
             Board x0 = new Board(this.n);
 
             this.time = DateTime.Now;
-            this.algo = new TabuMethod(x0,10000);
+            this.algo = new TabuMethod(x0,1000);
             //this.algo = new SimulatedAnnealing(x0);
-            this.algo.changed += this.updateEvent;
             this.thread = new Thread(new ThreadStart(this.algo.start));
             this.thread.Start();
-
+            timer.Start();
+            this.update();
         }
 
-        private void updateEvent(object algo, EventArgs args)
+
+        private void timer_Tick(object sender, EventArgs e)
         {
-            Algo sa = (Algo)algo;
-            this.Invoke(this.UpdateDelegate, new object[] { sa.XMin });
+            if (!algo.IsRunning)
+                timer.Stop();
+
+            this.update();
         }
 
 
@@ -60,53 +67,65 @@ namespace PolytechOptDiscReines
             for (int i = 1; i <= n; i++)
             {
                 dgvBoard.Columns.Add("col" + i, "column " + i);
-                dgvBoard.Columns[i - 1].Width = 40;
-
+                dgvBoard.Columns[i - 1].Width = 10;
+                dgvBoard.Rows.Add(1);
+                dgvBoard.Rows[i - 1].Height = 10;
             }
-            dgvBoard.Rows.Add(n - 1);
+
         }
         #endregion
 
 
 
-        private void update(Board board)
+        private void update()
         {
-            // undraw old board
-            if (this.currentBoard != null)
-                this.drawDgv(this.currentBoard, true);
-            // draw new board
-            this.drawDgv(board);
-            // Show the current fitness
-            this.lbFit.Text = this.algo.FMin.ToString();
-            this.currentBoard = board;
-            // Update the runnin state label
-            this.updateIsRunning(this.algo.IsRunning);
-            this.lbState.Text = this.algo.getAdvancement();
+            this.updateLabel();
+            this.updateDGV();
         }
 
-        private void drawDgv(Board board, Boolean white = false)
+        public void updateDGV()
+        {
+            // draw new board
+            if (!this.algo.XMin.Equals(this.currentBoard))
+            {           
+                this.drawDgv(this.algo.XMin, this.currentBoard);
+                this.currentBoard = this.algo.XMin;
+            }
+        }
+
+        private void drawDgv(Board board, Board old)
         {
             int[] tab = board.Positions;
+            int[] tab2 = (old !=null)? old.Positions:null;
+            
+
             for (int i = 0; i < tab.Count(); i++)
             {
                 if (tab[i] > 0)
                 {
-                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.BackColor = (white) ? Color.White : Color.Green;
-                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.ForeColor = (white) ? Color.White : Color.Black;
+                    if (tab2 != null)
+                    {
+                        this.dgvBoard.Rows[i].Cells[tab2[i] - 1].Style.BackColor = Color.White;
+                        this.dgvBoard.Rows[i].Cells[tab2[i] - 1].Style.ForeColor = Color.White;
+                    }
+                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.BackColor =  Color.Green;
+                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.ForeColor =  Color.Black;
                 }
             }
         }
 
-        public void updateIsRunning(Boolean isRunning)
+        public void updateLabel()
         {
             this.lbTimer.Text = (DateTime.Now - this.time).TotalSeconds.ToString();
-            if (isRunning)
+            if (this.algo.IsRunning)
                 this.lbIsRunning.Text = "En Cours";
             else
             {
                 this.lbIsRunning.Text = "Fini";
             }
-
+            // Show the current fitness
+            this.lbFit.Text = this.algo.FMin.ToString();
+            this.lbState.Text = this.algo.getAdvancement();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -114,9 +133,5 @@ namespace PolytechOptDiscReines
             this.thread.Abort();
         }
 
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            this.lbTimer.Text = e.ToString();
-        }
     }
 }
