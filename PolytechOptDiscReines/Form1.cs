@@ -13,7 +13,7 @@ namespace PolytechOptDiscReines
 {
     public partial class Form1 : Form
     {
-        private int n = 100;
+        private int n = 200;
         private Board currentBoard;
         private Algo algo;
         private Thread thread;

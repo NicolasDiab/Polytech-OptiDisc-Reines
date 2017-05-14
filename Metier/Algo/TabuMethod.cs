@@ -34,8 +34,9 @@ namespace Metier
             notify();
         }
 
-        protected override void algo()
+        protected override void algo()     
         {
+            this.init();
             Board x = this.x0;
             int fx = this.finesseStrategy.compute(x0);
             currentN = 0;
@@ -70,6 +71,12 @@ namespace Metier
                     {
                         this.XMin = y;
                         this.FMin = fy;
+                        if (FMin == 0)
+                        {
+                            end = true;
+                            this.currentN = nMax;
+                        }
+                        notify();
                     }
                     x = y;
                 }
