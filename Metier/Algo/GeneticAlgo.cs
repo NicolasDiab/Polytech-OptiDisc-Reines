@@ -66,19 +66,26 @@ namespace Metier
         private List<GeneticBoard> crossOver(List<GeneticBoard> x, int numberCrossOver)
         {
             List<GeneticBoard> solutions = x;
-            
+            Random rand = new Random();
+
             for (int i = 0; i < numberCrossOver; i++)
             {
                 // select 2 parents
-                int indexParent1 = 0;
-                int indexParent2 = 0;
-                GeneticBoard parent1 = null;
-                GeneticBoard parent2 = null;
-                // create 2 children
-                GeneticBoard children1 = null;
-                GeneticBoard children2 = null;
-                // in the tab, replace the parents with the children
+                int indexParent1 = rand.Next(0, solutions.Count);
+                int indexParent2 = rand.Next(0, solutions.Count);
+                GeneticBoard parent1 = solutions[indexParent1];
+                GeneticBoard parent2 = solutions[indexParent2];
 
+                // create 2 children - slice parents at the middle
+                GeneticBoard children1 = parent1;
+                children1.Positions = parent1.Positions.Take(parent1.Positions.Length / 2).Concat(parent2.Positions.Skip(parent2.Positions.Length / 2)).ToArray();
+
+                GeneticBoard children2 = parent2;
+                children2.Positions = parent2.Positions.Take(parent2.Positions.Length / 2).Concat(parent1.Positions.Skip(parent1.Positions.Length / 2)).ToArray();
+
+                // in the tab, replace the parents with the children
+                solutions[indexParent1] = children1;
+                solutions[indexParent2] = children2;
             }
 
             return solutions;
