@@ -32,14 +32,12 @@ namespace Metier
             currentGeneration = firstGeneration;
             for (this.currentGenerationNumber = 0; this.currentGenerationNumber < this.nbGeneration; this.currentGenerationNumber++) {
                 nextGeneration = new List<GeneticBoard>();
-                nextGeneration.AddRange(this.reproduction(this.currentGeneration));
+                nextGeneration.AddRange(this.reproduction(this.currentGeneration, 10));
                 nextGeneration.AddRange(this.mutation(this.currentGeneration, 0.05));
                 nextGeneration.AddRange(this.crossOver(this.currentGeneration, 10));
                 this.currentGeneration = nextGeneration;
             }
         }
-
-
 
         private List<GeneticBoard> mutation(List<GeneticBoard> x, double probability)
         {
@@ -56,11 +54,56 @@ namespace Metier
 
             return solutions;
         }
-        
 
-        private List<GeneticBoard> reproduction(List<GeneticBoard> x)
+        private List<GeneticBoard> reproduction(List<GeneticBoard> x, int numberToSelect)
         {
-            throw new NotImplementedException();
+            // dictionnary that contains <Borad, minProbability>
+            Dictionary<GeneticBoard, double> dictionnaryProba = new Dictionary<GeneticBoard, double>();
+            Dictionary<GeneticBoard, int> dictionnaryFitness = new Dictionary<GeneticBoard, int>();
+
+            //compute fitness for each board and in total
+            int fitnessTotal = 0;
+            foreach (GeneticBoard solution in x)
+            {
+                int fitness = this.FinesseStrategy.compute(solution);
+                fitnessTotal += fitness;
+                dictionnaryFitness.Add(solution, fitness);
+            }
+
+            // link a min probability to each board - like a wheel
+            double totalProba = 0;
+            foreach (GeneticBoard solution in x)
+            {
+                int fitness = 0;
+                dictionnaryFitness.TryGetValue(solution, out fitness);
+
+                dictionnaryProba.Add(solution, (fitness / fitnessTotal) + totalProba);
+                totalProba += fitness / fitnessTotal;
+            }
+
+            // turn the wheel !!!
+            List<GeneticBoard> solutions = new List<GeneticBoard>();
+            Random rand = new Random();
+            double proba;
+
+            for (int i = 0; i < numberToSelect; i++)
+            {
+                proba = rand.NextDouble();
+
+                //get solution for given proba
+                KeyValuePair<GeneticBoard, double> keyValuePair = new KeyValuePair<GeneticBoard, double>();
+                keyValuePair = [null, int.MaxValue]; // initialise with +infinite
+                foreach (var pair in dictionnaryProba)
+                {
+                    //keep only the smallest solution which is bigger that given proba
+                    if (pair.Value >= proba && pair.Value <= keyValuePair.Value)
+                        keyValuePair = [pair.Key, pair.Value];
+                }
+
+                solutions.Add(keyValuePair.Key);
+            }
+
+            return solutions;
         }
         
         private List<GeneticBoard> crossOver(List<GeneticBoard> x, int numberCrossOver)
