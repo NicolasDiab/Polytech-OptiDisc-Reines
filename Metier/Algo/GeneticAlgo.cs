@@ -91,16 +91,19 @@ namespace Metier
                 proba = rand.NextDouble();
 
                 //get solution for given proba
-                KeyValuePair<GeneticBoard, double> keyValuePair = new KeyValuePair<GeneticBoard, double>();
-                keyValuePair = [null, int.MaxValue]; // initialise with +infinite
+                GeneticBoard soluceBoard = null;
+                double soluceProba = double.MaxValue; // initialise with +infinite
                 foreach (var pair in dictionnaryProba)
                 {
                     //keep only the smallest solution which is bigger that given proba
-                    if (pair.Value >= proba && pair.Value <= keyValuePair.Value)
-                        keyValuePair = [pair.Key, pair.Value];
+                    if (pair.Value >= proba && pair.Value <= soluceProba)
+                    {
+                        soluceBoard = pair.Key;
+                        soluceProba = pair.Value;
+                    }
                 }
 
-                solutions.Add(keyValuePair.Key);
+                solutions.Add(soluceBoard);
             }
 
             return solutions;
