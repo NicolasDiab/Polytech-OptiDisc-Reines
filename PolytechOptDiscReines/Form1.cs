@@ -13,7 +13,6 @@ namespace PolytechOptDiscReines
 {
     public partial class Form1 : Form
     {
-        private int n = 100;
         private Board currentBoard;
         private Algo algo;
         private Thread thread;
@@ -21,7 +20,7 @@ namespace PolytechOptDiscReines
         private System.Windows.Forms.Timer timer;
 
 
-
+        private const int NUMBER_QUEENS = 8;
 
 
         public Form1()
@@ -37,11 +36,15 @@ namespace PolytechOptDiscReines
         #region Methode with Event 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Board x0 = new Board(this.n);
+            Board x0 = new Board(NUMBER_QUEENS);
 
             this.time = DateTime.Now;
-            this.algo = new TabuMethod(x0,1000);
+            //this.algo = new TabuMethod(x0,1000);
+
             //this.algo = new SimulatedAnnealing(x0);
+            
+            this.algo = new GeneticAlgo(GeneticBoard.getFirstGeneration(10, NUMBER_QUEENS), 100);
+
             this.thread = new Thread(new ThreadStart(this.algo.start));
             this.thread.Start();
             timer.Start();
@@ -64,7 +67,7 @@ namespace PolytechOptDiscReines
             dgvBoard.RowHeadersVisible = false;
             dgvBoard.ColumnHeadersVisible = false;
 
-            for (int i = 1; i <= n; i++)
+            for (int i = 1; i <= NUMBER_QUEENS; i++)
             {
                 dgvBoard.Columns.Add("col" + i, "column " + i);
                 dgvBoard.Columns[i - 1].Width = 10;

@@ -32,9 +32,10 @@ namespace Metier
             currentGeneration = firstGeneration;
             for (this.currentGenerationNumber = 0; this.currentGenerationNumber < this.nbGeneration; this.currentGenerationNumber++) {
                 nextGeneration = new List<GeneticBoard>();
-                nextGeneration.AddRange(this.reproduction(this.currentGeneration, 10));
-                nextGeneration.AddRange(this.mutation(this.currentGeneration, 0.05));
-                nextGeneration.AddRange(this.crossOver(this.currentGeneration, 10));
+                int numberReproduction = currentGeneration.Count * 2 / 3;
+                nextGeneration.AddRange(this.reproduction(this.currentGeneration, numberReproduction));
+                nextGeneration.AddRange(this.crossOver(this.currentGeneration, currentGeneration.Count - numberReproduction));
+                nextGeneration = this.mutation(this.currentGeneration, 0.05);
                 this.currentGeneration = nextGeneration;
             }
         }
