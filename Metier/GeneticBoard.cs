@@ -33,6 +33,29 @@ namespace Metier
             return positions;
         }
 
+        protected int[] buildRandomSolution(int n)
+        {
+            int[] positions = new int[n * n];
+
+            Random rand = new Random();
+
+            for (int i = 0; i < n; i++)
+            {
+                bool ok = false;
+                while(!ok)
+                {
+                    int pos = rand.Next(0, positions.Length - 1);
+                    if (positions[pos] == 0)
+                    {
+                        positions[pos] = 1;
+                        ok = true;
+                    }
+                }
+            }
+
+            return positions;
+        }
+
         public void muter()
         {
             int mutationPosition = new Random().Next(0, this.Positions.Length - 1);
@@ -40,6 +63,18 @@ namespace Metier
             int currentValue = Positions[mutationPosition];
 
             this.Positions[mutationPosition] = currentValue == 1 ? 0 : 1; // reverse the int - if 1 --> return 0 else 1
+            // then reverse another 1/0 to equilibrate the total number of queens
+
+            bool ok = false;
+            while (!ok)
+            {
+                int mutationPosition2 = new Random().Next(0, this.Positions.Length - 1);
+                if (this.Positions[mutationPosition] != currentValue)
+                {
+                    this.Positions[mutationPosition] = currentValue == 1 ? 0 : 1; // reverse the int
+                    ok = true;
+                }
+            }
         }
 
         public static List<GeneticBoard> getFirstGeneration(int nbSolutions, int boardSize)
@@ -49,7 +84,8 @@ namespace Metier
             for (int i=0; i < nbSolutions; i++)
             {
                 GeneticBoard board = new GeneticBoard(boardSize);
-                board.buildSolution(boardSize);
+                int[] ret = board.buildRandomSolution(boardSize);
+                board.Positions = ret;
 
                 firstGeneration.Add(board);
             }

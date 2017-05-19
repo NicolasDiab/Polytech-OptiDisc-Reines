@@ -68,7 +68,7 @@ namespace Metier
             int fitnessTotal = 0;
             foreach (GeneticBoard solution in x)
             {
-                int fitness = this.FinesseStrategy.compute(solution);
+                int fitness = this.FinesseStrategy.compute((GeneticBoard)solution);
                 fitnessTotal += fitness;
                 dictionnaryFitness.Add(solution, fitness);
                 if (fitness < FMin) {
