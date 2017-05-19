@@ -18,16 +18,16 @@ namespace Metier
 
         public GeneticBoard(int n) : base(n)
         {
+            this.Positions = buildSolution(n);
         }
 
         protected override int[] buildSolution(int n)
         {
             int[] positions = new int[n*n];
-            int q = 0;
 
-            for (int i = 0; i < n * n; i++)
+            for (int i = 0; i < n; i++)
             {
-                positions[i] = (i % (n + q) == 0) ? 1 : 0;
+                positions[i * (n + 1)] = 1;
             }
 
             return positions;

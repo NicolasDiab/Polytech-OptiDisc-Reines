@@ -90,8 +90,13 @@ namespace PolytechOptDiscReines
         {
             // draw new board
             if (!this.algo.XMin.Equals(this.currentBoard))
-            {           
-                this.drawDgv(this.algo.XMin, this.currentBoard);
+            {
+                if (this.algo.XMin is GeneticBoard)
+                    this.drawDgv((GeneticBoard)this.algo.XMin, (GeneticBoard)this.currentBoard);
+                else
+                    this.drawDgv(this.algo.XMin, this.currentBoard);
+
+
                 this.currentBoard = this.algo.XMin;
             }
         }
@@ -115,6 +120,32 @@ namespace PolytechOptDiscReines
                 }
             }
         }
+
+        private void drawDgv(GeneticBoard board, GeneticBoard old)
+        {
+            int[] tab = board.Positions;
+            int[] tab2 = (old != null) ? old.Positions : null;
+            int i=0, j =0;
+            for (int index = 0; index < tab.Count(); index++)
+            {
+                i = index / board.N;
+                j = index % board.N;
+
+
+                if (tab2 != null && tab2[i] > 0)
+                {
+                    this.dgvBoard.Rows[i].Cells[j].Style.BackColor = Color.White;
+                    this.dgvBoard.Rows[i].Cells[j].Style.ForeColor = Color.White;
+                }
+                if (tab[i] > 0)
+                {
+                    this.dgvBoard.Rows[i].Cells[j].Style.BackColor = Color.Green;
+                    this.dgvBoard.Rows[i].Cells[j].Style.ForeColor = Color.Black;
+                }
+            }
+        }
+
+
 
         public void updateLabel()
         {

@@ -30,6 +30,8 @@ namespace Metier
         {
             List<GeneticBoard> nextGeneration;
             currentGeneration = firstGeneration;
+            this.XMin = this.firstGeneration[0];
+            this.FMin = this.FinesseStrategy.compute((GeneticBoard)XMin);
             for (this.currentGenerationNumber = 0; this.currentGenerationNumber < this.nbGeneration; this.currentGenerationNumber++) {
                 nextGeneration = new List<GeneticBoard>();
                 int numberReproduction = currentGeneration.Count * 2 / 3;
@@ -69,6 +71,10 @@ namespace Metier
                 int fitness = this.FinesseStrategy.compute(solution);
                 fitnessTotal += fitness;
                 dictionnaryFitness.Add(solution, fitness);
+                if (fitness < FMin) {
+                    this.XMin = solution;
+                    this.FMin = fitness;
+                }
             }
 
             // link a min probability to each board - like a wheel
