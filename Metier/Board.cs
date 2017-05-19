@@ -13,7 +13,7 @@ namespace Metier
         private int n;
         private KeyValuePair<int, int> transition;
 
-        public int[] Positions { get => positions; }
+        public int[] Positions { get => positions; set => positions = value; }
         public int N { get => n; }
         public KeyValuePair<int, int> Transition { get => transition; set => transition = value; }
 

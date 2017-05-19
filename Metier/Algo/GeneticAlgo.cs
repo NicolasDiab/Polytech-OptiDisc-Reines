@@ -18,43 +18,124 @@ namespace Metier
         public GeneticAlgo(List<GeneticBoard> firstGeneration, int nbGeneration) {
             this.nbGeneration = nbGeneration;
             this.firstGeneration = firstGeneration;
-            FinesseStrategy = new NbQueenConflict();
+            this.FinesseStrategy = new NbQueenConflict();
         }
 
         public override string getAdvancement()
         {
-            return Math.Round(((double)currentGenerationNumber / (double)nbGeneration),3) * 100 + " % ";
+            return Math.Round(((double)this.currentGenerationNumber / (double)this.nbGeneration),3) * 100 + " % ";
         }
 
         protected override void algo()
         {
             List<GeneticBoard> nextGeneration;
             currentGeneration = firstGeneration;
-            for (currentGenerationNumber = 0; currentGenerationNumber < nbGeneration; currentGenerationNumber++) {
+            for (this.currentGenerationNumber = 0; this.currentGenerationNumber < this.nbGeneration; this.currentGenerationNumber++) {
                 nextGeneration = new List<GeneticBoard>();
-                nextGeneration.AddRange(this.reproduction(currentGeneration));
-                nextGeneration.AddRange(this.mutation(currentGeneration));
-                nextGeneration.AddRange(this.crossing(currentGeneration));
-                currentGeneration = nextGeneration;
+                int numberReproduction = currentGeneration.Count * 2 / 3;
+                nextGeneration.AddRange(this.reproduction(this.currentGeneration, numberReproduction));
+                nextGeneration.AddRange(this.crossOver(this.currentGeneration, currentGeneration.Count - numberReproduction));
+                nextGeneration = this.mutation(this.currentGeneration, 0.05);
+                this.currentGeneration = nextGeneration;
             }
         }
 
-
-
-        private List<GeneticBoard> mutation(List<GeneticBoard> x)
+        private List<GeneticBoard> mutation(List<GeneticBoard> x, double probability)
         {
-            throw new NotImplementedException();
+            List<GeneticBoard> solutions = x;
+            Random rand = new Random();
+
+            foreach (GeneticBoard solution in solutions)
+            {
+                if (rand.Next(0, 1) <= probability)
+                {
+                    solution.muter();
+                }
+            }
+
+            return solutions;
+        }
+
+        private List<GeneticBoard> reproduction(List<GeneticBoard> x, int numberToSelect)
+        {
+            // dictionnary that contains <Borad, minProbability>
+            Dictionary<GeneticBoard, double> dictionnaryProba = new Dictionary<GeneticBoard, double>();
+            Dictionary<GeneticBoard, int> dictionnaryFitness = new Dictionary<GeneticBoard, int>();
+
+            //compute fitness for each board and in total
+            int fitnessTotal = 0;
+            foreach (GeneticBoard solution in x)
+            {
+                int fitness = this.FinesseStrategy.compute(solution);
+                fitnessTotal += fitness;
+                dictionnaryFitness.Add(solution, fitness);
+            }
+
+            // link a min probability to each board - like a wheel
+            double totalProba = 0;
+            foreach (GeneticBoard solution in x)
+            {
+                int fitness = 0;
+                dictionnaryFitness.TryGetValue(solution, out fitness);
+
+                dictionnaryProba.Add(solution, (fitness / fitnessTotal) + totalProba);
+                totalProba += fitness / fitnessTotal;
+            }
+
+            // turn the wheel !!!
+            List<GeneticBoard> solutions = new List<GeneticBoard>();
+            Random rand = new Random();
+            double proba;
+
+            for (int i = 0; i < numberToSelect; i++)
+            {
+                proba = rand.NextDouble();
+
+                //get solution for given proba
+                GeneticBoard soluceBoard = null;
+                double soluceProba = double.MaxValue; // initialise with +infinite
+                foreach (var pair in dictionnaryProba)
+                {
+                    //keep only the smallest solution which is bigger that given proba
+                    if (pair.Value >= proba && pair.Value <= soluceProba)
+                    {
+                        soluceBoard = pair.Key;
+                        soluceProba = pair.Value;
+                    }
+                }
+
+                solutions.Add(soluceBoard);
+            }
+
+            return solutions;
         }
         
-
-        private List<GeneticBoard> reproduction(List<GeneticBoard> x)
+        private List<GeneticBoard> crossOver(List<GeneticBoard> x, int numberCrossOver)
         {
-            throw new NotImplementedException();
-        }
+            List<GeneticBoard> solutions = x;
+            Random rand = new Random();
 
-        private List<GeneticBoard> crossing(List<GeneticBoard> x)
-        {
-            throw new NotImplementedException();
+            for (int i = 0; i < numberCrossOver; i++)
+            {
+                // select 2 parents
+                int indexParent1 = rand.Next(0, solutions.Count - 1);
+                int indexParent2 = rand.Next(0, solutions.Count - 1);
+                GeneticBoard parent1 = solutions[indexParent1];
+                GeneticBoard parent2 = solutions[indexParent2];
+
+                // create 2 children - slice parents at the middle
+                GeneticBoard children1 = parent1;
+                children1.Positions = parent1.Positions.Take(parent1.Positions.Length / 2).Concat(parent2.Positions.Skip(parent2.Positions.Length / 2)).ToArray();
+
+                GeneticBoard children2 = parent2;
+                children2.Positions = parent2.Positions.Take(parent2.Positions.Length / 2).Concat(parent1.Positions.Skip(parent1.Positions.Length / 2)).ToArray();
+
+                // in the tab, replace the parents with the children
+                solutions[indexParent1] = children1;
+                solutions[indexParent2] = children2;
+            }
+
+            return solutions;
         }
 
     }

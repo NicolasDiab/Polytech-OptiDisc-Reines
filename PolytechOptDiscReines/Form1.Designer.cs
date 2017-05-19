@@ -34,6 +34,8 @@
             this.lbIsRunning = new System.Windows.Forms.Label();
             this.lbTimer = new System.Windows.Forms.Label();
             this.lbState = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBoard)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,11 +96,31 @@
             this.lbState.TabIndex = 5;
             this.lbState.Text = "état";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(796, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Fitness";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(622, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "TIMER";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(843, 438);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lbState);
             this.Controls.Add(this.lbTimer);
             this.Controls.Add(this.lbIsRunning);
@@ -123,6 +145,8 @@
         private System.Windows.Forms.Label lbIsRunning;
         private System.Windows.Forms.Label lbTimer;
         private System.Windows.Forms.Label lbState;
+        private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.Label label2;
     }
 }
 
