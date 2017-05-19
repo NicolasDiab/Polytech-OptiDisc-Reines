@@ -84,7 +84,7 @@ namespace Metier
                 int fitness = 0;
                 dictionnaryFitness.TryGetValue(solution, out fitness);
 
-                dictionnaryProba.Add(solution, (fitness / fitnessTotal) + totalProba);
+                dictionnaryProba.Add(solution, 1 - (fitness / fitnessTotal) + totalProba); // 1- proba to minimixe fitness and not maximize !
                 totalProba += fitness / fitnessTotal;
             }
 
