@@ -9,5 +9,6 @@ namespace Metier.Finesse
     public interface FinesseStrategy
     {
         int compute(Board position);
+        int compute(GeneticBoard position);
     }
 }
