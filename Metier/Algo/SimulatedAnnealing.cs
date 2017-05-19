@@ -11,7 +11,7 @@ namespace Metier
     public class SimulatedAnnealing : Algo
     {
         const double PROBA = 0.8;
-        const double U = 0.90;
+        const double U = 0.80;
         const int N2 = 1000;
         private Board x0;
         private double t0;
@@ -26,12 +26,11 @@ namespace Metier
         public SimulatedAnnealing(Board x0)
         {
             this.FinesseStrategy = new NbQueenConflict();
-            this.NeighboursStrategy = new Swap();
+            this.NeighboursStrategy = new RandomSwapBest(50,this.FinesseStrategy);
             this.x0 = x0;
             this.t0 = this.computeInitTemperature(this.computeDeltaMax(this.x0.N),PROBA);
-            this.n2 = N2;
-            this.step = computeStepTemperature(t0, this.computeDeltaMax(this.x0.N), PROBA, U);
-            this.n1 = (int)( t0 / -step);
+            this.n2 = N2;         
+            this.n1 = - (int)computeStepTemperature(t0, this.computeDeltaMax(this.x0.N), PROBA, U);
             this.t = t0;
         }
 
@@ -75,7 +74,7 @@ namespace Metier
                     }
                     else
                     {
-                        p = random.Next(0, 10000) / 10000;
+                        p = (Double)random.Next(0, 10000) / (Double)10000;
                         if (p < Math.Exp(-delta / t))
                         {
                             x = y;
@@ -84,7 +83,8 @@ namespace Metier
                     }
                     i++;
                 }
-                t += computeStepTemperature(this.t0,this.FMin,PROBA,U);
+                t = U * t;
+                //t *= 0.98;
             }
         }
 

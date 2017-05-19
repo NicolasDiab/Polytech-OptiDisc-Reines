@@ -46,6 +46,8 @@
     <Compile Include="Finesse\FinesseStrategy.cs" />
     <Compile Include="Finesse\NbQueenConflict.cs" />
     <Compile Include="GeneticBoard.cs" />
+    <Compile Include="Neighbours\RandomSwapBest.cs" />
+    <Compile Include="Neighbours\RandomSwapcs.cs" />
     <Compile Include="Neighbours\Swap.cs" />
     <Compile Include="Neighbours\NeighboursStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

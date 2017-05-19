@@ -28,7 +28,7 @@ namespace PolytechOptDiscReines
         {
             InitializeComponent();
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 100; // 5 secs
+            timer.Interval = 200; // 5 secs
             timer.Tick += this.timer_Tick;
                 
             
@@ -40,8 +40,8 @@ namespace PolytechOptDiscReines
             Board x0 = new Board(this.n);
 
             this.time = DateTime.Now;
-            this.algo = new TabuMethod(x0,1000);
-            //this.algo = new SimulatedAnnealing(x0);
+            //this.algo = new TabuMethod(x0,1000);
+            this.algo = new SimulatedAnnealing(x0);
             this.thread = new Thread(new ThreadStart(this.algo.start));
             this.thread.Start();
             timer.Start();
@@ -67,9 +67,9 @@ namespace PolytechOptDiscReines
             for (int i = 1; i <= n; i++)
             {
                 dgvBoard.Columns.Add("col" + i, "column " + i);
-                dgvBoard.Columns[i - 1].Width = 10;
+                dgvBoard.Columns[i - 1].Width = 20;
                 dgvBoard.Rows.Add(1);
-                dgvBoard.Rows[i - 1].Height = 10;
+                dgvBoard.Rows[i - 1].Height = 20;
             }
 
         }
@@ -96,8 +96,7 @@ namespace PolytechOptDiscReines
         private void drawDgv(Board board, Board old)
         {
             int[] tab = board.Positions;
-            int[] tab2 = (old !=null)? old.Positions:null;
-            
+            int[] tab2 = (old !=null)? old.Positions:null;           
 
             for (int i = 0; i < tab.Count(); i++)
             {

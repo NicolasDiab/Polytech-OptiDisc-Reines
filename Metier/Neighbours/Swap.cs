@@ -23,7 +23,7 @@ namespace Metier.Neighbours
             return neighbours;
         }
 
-        private int[] switchPosition(int[] paramTab, int i, int j)
+        protected int[] switchPosition(int[] paramTab, int i, int j)
         {
             int[] positions = (int[])paramTab.Clone();
             int temp = positions[i];
