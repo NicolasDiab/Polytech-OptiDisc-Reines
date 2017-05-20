@@ -56,7 +56,7 @@ namespace Metier.Finesse
         {
             int nbQueenC = 0;
             int nbQueenL = 0;
-            for (int index = 0; index < n; i++)
+            for (int index = 0; index < n; index++)
             {
                 if (position[index + i * n] == 1)
                     nbQueenL++;
@@ -80,7 +80,7 @@ namespace Metier.Finesse
             int nbQueenL2 = 0;
 
 
-            for (int index = i; index < n; i++) {
+            for (int index = 0; index < n - i; index++) {
                 if (i == 0)
                 {
                     if (position[index * stepDiag1] == 1)

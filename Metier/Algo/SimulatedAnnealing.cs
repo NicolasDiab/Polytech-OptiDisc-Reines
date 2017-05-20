@@ -12,7 +12,7 @@ namespace Metier
     {
         const double PROBA = 0.8;
         const double U = 0.80;
-        const int N2 = 1000;
+        const int N2 = 10000;
         private Board x0;
         private double t0;
         private int i;
@@ -26,7 +26,7 @@ namespace Metier
         public SimulatedAnnealing(Board x0)
         {
             this.FinesseStrategy = new NbQueenConflict();
-            this.NeighboursStrategy = new RandomSwapBest(50,this.FinesseStrategy);
+            this.NeighboursStrategy = new RandomSwapBest(5,this.FinesseStrategy);
             this.x0 = x0;
             this.t0 = this.computeInitTemperature(this.computeDeltaMax(this.x0.N),PROBA);
             this.n2 = N2;         
@@ -41,7 +41,7 @@ namespace Metier
             this.i = 0;
         }
 
-        protected override void algo()
+        protected /*override*/ void algo2()
         {
             this.init();
             Board x = this.x0;
@@ -74,7 +74,7 @@ namespace Metier
                     }
                     else
                     {
-                        p = (Double)random.Next(0, 10000) / (Double)10000;
+                        p = (Double)random.NextDouble();
                         if (p < Math.Exp(-delta / t))
                         {
                             x = y;
@@ -86,6 +86,52 @@ namespace Metier
                 t = U * t;
                 //t *= 0.98;
             }
+        }
+
+        protected override void algo()
+        {
+            Random random = new Random();
+            double temp = 10000;
+            double coolingRate = 0.003;
+            Board currentBoard = this.x0, newBoard;
+            int currentFinnesse = this.finesseStrategy.compute(currentBoard), newFinnesse,delta;
+            XMin = currentBoard;
+            FMin = currentFinnesse;
+            double p;
+            while (temp > 1)
+            {
+                newBoard = this.getRandomNeighbour(this.neighboursStrategy.compute(currentBoard));
+                newFinnesse = this.finesseStrategy.compute(newBoard);
+
+                delta = newFinnesse - currentFinnesse;
+
+
+
+                if (delta <= 0)
+                {
+                    currentBoard = newBoard;
+                    currentFinnesse = newFinnesse;
+                    if (newFinnesse < this.FMin)
+                    {
+                        this.FMin = newFinnesse;
+                        this.XMin = newBoard;
+                        if (this.FMin == 0)
+                            return;
+                    }
+                }
+                else {
+                    p = (Double)random.NextDouble();
+                    if (p < Math.Exp(-delta / t))
+                    {
+                        currentBoard = newBoard;
+                        currentFinnesse = newFinnesse;
+                    }
+                }
+
+
+                temp *= 1 - coolingRate;
+            }
+
         }
 
         public Board getRandomNeighbour(List<Board> neighbours)

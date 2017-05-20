@@ -41,10 +41,9 @@ namespace PolytechOptDiscReines
             this.time = DateTime.Now;
             //this.algo = new TabuMethod(x0,1000);
 
-            //this.algo = new SimulatedAnnealing(x0);
+            this.algo = new SimulatedAnnealing(x0);
             
-            this.algo = new GeneticAlgo(GeneticBoard.getFirstGeneration(10, NUMBER_QUEENS), 100);
-
+            //this.algo = new GeneticAlgo(GeneticBoard.getFirstGeneration(10, NUMBER_QUEENS), 100);
             this.thread = new Thread(new ThreadStart(this.algo.start));
             this.thread.Start();
             timer.Start();
@@ -67,13 +66,18 @@ namespace PolytechOptDiscReines
             dgvBoard.RowHeadersVisible = false;
             dgvBoard.ColumnHeadersVisible = false;
 
-            for (int i = 1; i <= NUMBER_QUEENS; i++)
+
+            dgvBoard.Columns.Add("col" + 0, "column " + 0);
+            dgvBoard.Columns[0].Width = 20;
+            dgvBoard.Rows.Add(NUMBER_QUEENS-1);
+            dgvBoard.Rows[0].Height = 20;
+            for (int i = 2; i <= NUMBER_QUEENS; i++)
             {
                 dgvBoard.Columns.Add("col" + i, "column " + i);
                 dgvBoard.Columns[i - 1].Width = 20;
-                dgvBoard.Rows.Add(1);
                 dgvBoard.Rows[i - 1].Height = 20;
             }
+            
 
         }
         #endregion
@@ -89,7 +93,7 @@ namespace PolytechOptDiscReines
         public void updateDGV()
         {
             // draw new board
-            if (!this.algo.XMin.Equals(this.currentBoard))
+            if (this.algo.XMin != null && !this.algo.XMin.Equals(this.currentBoard))
             {
                 if (this.algo.XMin is GeneticBoard)
                     this.drawDgv((GeneticBoard)this.algo.XMin, (GeneticBoard)this.currentBoard);
@@ -163,7 +167,8 @@ namespace PolytechOptDiscReines
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.thread.Abort();
+
+            if(thread != null) this.thread.Abort();
         }
 
     }

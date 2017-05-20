@@ -15,6 +15,8 @@ namespace Metier
         private int nbGeneration;
         private int currentGenerationNumber;
 
+        public List<GeneticBoard> FirstGeneration { get => firstGeneration; set => firstGeneration = value; }
+
         public GeneticAlgo(List<GeneticBoard> firstGeneration, int nbGeneration) {
             this.nbGeneration = nbGeneration;
             this.firstGeneration = firstGeneration;
