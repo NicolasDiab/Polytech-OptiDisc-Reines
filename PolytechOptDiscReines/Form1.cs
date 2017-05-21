@@ -29,8 +29,8 @@ namespace PolytechOptDiscReines
             timer = new System.Windows.Forms.Timer();
             timer.Interval = 200; // 5 secs
             timer.Tick += this.timer_Tick;
-                
-            
+
+
         }
 
         #region Methode with Event 
@@ -42,7 +42,7 @@ namespace PolytechOptDiscReines
             //this.algo = new TabuMethod(x0,1000);
 
             //this.algo = new SimulatedAnnealing(x0);
-            
+
             this.algo = new GeneticAlgo(GeneticBoard.getFirstGeneration(10, NUMBER_QUEENS), 50000, 0.05, NUMBER_QUEENS * 1 / 4, NUMBER_QUEENS);
             this.thread = new Thread(new ThreadStart(this.algo.start));
             this.thread.Start();
@@ -69,7 +69,7 @@ namespace PolytechOptDiscReines
 
             dgvBoard.Columns.Add("col" + 0, "column " + 0);
             dgvBoard.Columns[0].Width = 20;
-            dgvBoard.Rows.Add(NUMBER_QUEENS-1);
+            dgvBoard.Rows.Add(NUMBER_QUEENS - 1);
             dgvBoard.Rows[0].Height = 20;
             for (int i = 2; i <= NUMBER_QUEENS; i++)
             {
@@ -77,7 +77,7 @@ namespace PolytechOptDiscReines
                 dgvBoard.Columns[i - 1].Width = 20;
                 dgvBoard.Rows[i - 1].Height = 20;
             }
-            
+
 
         }
         #endregion
@@ -108,7 +108,7 @@ namespace PolytechOptDiscReines
         private void drawDgv(Board board, Board old)
         {
             int[] tab = board.Positions;
-            int[] tab2 = (old !=null)? old.Positions:null;           
+            int[] tab2 = (old != null) ? old.Positions : null;
 
             for (int i = 0; i < tab.Count(); i++)
             {
@@ -119,8 +119,8 @@ namespace PolytechOptDiscReines
                         this.dgvBoard.Rows[i].Cells[tab2[i] - 1].Style.BackColor = Color.White;
                         this.dgvBoard.Rows[i].Cells[tab2[i] - 1].Style.ForeColor = Color.White;
                     }
-                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.BackColor =  Color.Green;
-                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.ForeColor =  Color.Black;
+                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.BackColor = Color.Green;
+                    this.dgvBoard.Rows[i].Cells[tab[i] - 1].Style.ForeColor = Color.Black;
                 }
             }
         }
@@ -128,25 +128,22 @@ namespace PolytechOptDiscReines
         private void drawDgv(GeneticBoard board, GeneticBoard old)
         {
             int[] tab = board.Positions;
-            int[] tab2 = (old != null) ? old.Positions : null;
-            int i=0, j =0;
-            for (int index = 0; index < tab.Count(); index++)
-            {
-                i = index / board.N;
-                j = index % board.N;
-
-
-                if (tab2 != null && tab2[i] > 0)
+            int i = 0, j = 0;
+            for (i = 0; i < board.N; i++)
+                for (j = 0; j < board.N; j++)
                 {
+
                     this.dgvBoard.Rows[i].Cells[j].Style.BackColor = Color.White;
                     this.dgvBoard.Rows[i].Cells[j].Style.ForeColor = Color.White;
+
+                    if (tab[board.N * i + j] > 0)
+                    {
+                        this.dgvBoard.Rows[i].Cells[j].Style.BackColor = Color.Green;
+                        this.dgvBoard.Rows[i].Cells[j].Style.ForeColor = Color.Black;
+                    }
                 }
-                if (tab[i] > 0)
-                {
-                    this.dgvBoard.Rows[i].Cells[j].Style.BackColor = Color.Green;
-                    this.dgvBoard.Rows[i].Cells[j].Style.ForeColor = Color.Black;
-                }
-            }
+
+
         }
 
 
@@ -168,7 +165,7 @@ namespace PolytechOptDiscReines
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
 
-            if(thread != null) this.thread.Abort();
+            if (thread != null) this.thread.Abort();
         }
 
     }
