@@ -36,26 +36,25 @@ namespace Metier
         protected override void algo()
         {
             List<GeneticBoard> nextGeneration;
-            currentGeneration = firstGeneration;
+            this.currentGeneration = firstGeneration;
             this.XMin = this.firstGeneration[0];
             this.FMin = this.FinesseStrategy.compute((GeneticBoard)XMin, this.numberQueens);
             for (this.currentGenerationNumber = 0; this.currentGenerationNumber < this.nbGeneration; this.currentGenerationNumber++) {
                 nextGeneration = new List<GeneticBoard>();
-                nextGeneration.AddRange(this.reproduction(this.currentGeneration, this.currentGeneration.Count));
+                nextGeneration.AddRange(this.reproduction(this.currentGeneration, this.firstGeneration.Count));
                 nextGeneration = this.crossOver(nextGeneration, this.crossOverNumber);
                 nextGeneration = this.mutation(nextGeneration, this.mutationProbability);
                 this.currentGeneration = nextGeneration;
-            }
-            
-            // update view
-            foreach (GeneticBoard solution in currentGeneration)
-            {
-                int fitness = this.FinesseStrategy.compute((GeneticBoard)solution, this.numberQueens);
-                if (fitness <= FMin)
+
+                // update view
+                foreach (GeneticBoard solution in this.currentGeneration)
                 {
-                    this.XMin = new GeneticBoard(solution.Positions, solution.N);
-                    this.XMin = solution;
-                    this.FMin = fitness;
+                    int fitness = this.FinesseStrategy.compute((GeneticBoard)solution, this.numberQueens);
+                    if (fitness <= FMin)
+                    {
+                        this.XMin = new GeneticBoard(solution.Positions, solution.N);
+                        this.FMin = fitness;
+                    }
                 }
             }
         }
@@ -78,7 +77,7 @@ namespace Metier
                 }
             }
 
-            return solutions;
+             return solutions;
         }
 
         private List<GeneticBoard> reproduction(List<GeneticBoard> x, int numberToSelect)
@@ -94,22 +93,19 @@ namespace Metier
                 int fitness = this.FinesseStrategy.compute((GeneticBoard)solution);
                 fitnessTotal += fitness;
                 dictionnaryFitness.Add(solution, fitness);
-                if (fitness < FMin) {
-                    this.XMin = new GeneticBoard(solution.Positions, solution.N);
-                    this.XMin = solution;
-                    this.FMin = fitness;
-                }
             }
 
             // link a min probability to each board - like a wheel
-            double totalProba = 0;
+            double totalProba = 0.0000000000;
             foreach (GeneticBoard solution in x)
             {
                 int fitness = 0;
                 dictionnaryFitness.TryGetValue(solution, out fitness);
 
-                dictionnaryProba.Add(solution, 1 - (fitness / fitnessTotal) + totalProba); // 1- proba to minimixe fitness and not maximize !
-                totalProba += fitness / fitnessTotal;
+                double value = (double)fitness / (double)fitnessTotal; 
+
+                dictionnaryProba.Add(solution, 1 - value + totalProba); // 1- proba to minimixe fitness and not maximize !
+                totalProba += value;
             }
 
             // turn the wheel !!!

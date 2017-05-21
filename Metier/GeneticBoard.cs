@@ -69,9 +69,9 @@ namespace Metier
             while (!ok)
             {
                 int mutationPosition2 = new Random().Next(0, this.Positions.Length - 1);
-                if (this.Positions[mutationPosition] != currentValue)
+                if (this.Positions[mutationPosition2] != currentValue)
                 {
-                    this.Positions[mutationPosition] = currentValue == 1 ? 0 : 1; // reverse the int
+                    this.Positions[mutationPosition2] = currentValue == 1 ? 0 : 1; // reverse the int
                     ok = true;
                 }
             }
