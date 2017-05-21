@@ -45,6 +45,18 @@ namespace Metier
                 nextGeneration = this.mutation(this.currentGeneration, this.mutationProbability);
                 this.currentGeneration = nextGeneration;
             }
+            
+            // update view
+            foreach (GeneticBoard solution in currentGeneration)
+            {
+                int fitness = this.FinesseStrategy.compute((GeneticBoard)solution);
+                if (fitness <= FMin)
+                {
+                    this.XMin = new GeneticBoard(solution.Positions, solution.N);
+                    this.XMin = solution;
+                    this.FMin = fitness;
+                }
+            }
         }
 
         private List<GeneticBoard> mutation(List<GeneticBoard> x, double probability)
