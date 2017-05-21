@@ -42,8 +42,8 @@ namespace Metier
             for (this.currentGenerationNumber = 0; this.currentGenerationNumber < this.nbGeneration; this.currentGenerationNumber++) {
                 nextGeneration = new List<GeneticBoard>();
                 nextGeneration.AddRange(this.reproduction(this.currentGeneration, this.currentGeneration.Count));
-                nextGeneration = this.crossOver(this.currentGeneration, this.crossOverNumber);
-                nextGeneration = this.mutation(this.currentGeneration, this.mutationProbability);
+                nextGeneration = this.crossOver(nextGeneration, this.crossOverNumber);
+                nextGeneration = this.mutation(nextGeneration, this.mutationProbability);
                 this.currentGeneration = nextGeneration;
             }
             
@@ -62,7 +62,12 @@ namespace Metier
 
         private List<GeneticBoard> mutation(List<GeneticBoard> x, double probability)
         {
-            List<GeneticBoard> solutions = x;
+            List<GeneticBoard> solutions = new List<GeneticBoard>();
+            foreach (GeneticBoard gen in x)
+            {
+                solutions.Add(new GeneticBoard(gen.Positions, gen.N));
+            }
+            
             Random rand = new Random();
 
             foreach (GeneticBoard solution in solutions)
@@ -129,7 +134,7 @@ namespace Metier
                     }
                 }
 
-                solutions.Add(soluceBoard);
+                solutions.Add(new GeneticBoard(soluceBoard.Positions, soluceBoard.N));
             }
 
             return solutions;
@@ -137,7 +142,12 @@ namespace Metier
         
         private List<GeneticBoard> crossOver(List<GeneticBoard> x, int numberCrossOver)
         {
-            List<GeneticBoard> solutions = x;
+            List<GeneticBoard> solutions = new List<GeneticBoard>();
+            foreach (GeneticBoard gen in x)
+            {
+                solutions.Add(new GeneticBoard(gen.Positions, gen.N));
+            }
+
             Random rand = new Random();
 
             for (int i = 0; i < numberCrossOver; i++)
