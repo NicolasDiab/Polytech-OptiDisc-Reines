@@ -9,7 +9,7 @@ namespace Metier
 {
     public class GeneticAlgo : Algo
     {
-
+        private int numberQueens;
         private List<GeneticBoard> firstGeneration;
         private List<GeneticBoard> currentGeneration;
         private int nbGeneration;
@@ -19,11 +19,12 @@ namespace Metier
 
         public List<GeneticBoard> FirstGeneration { get => firstGeneration; set => firstGeneration = value; }
 
-        public GeneticAlgo(List<GeneticBoard> firstGeneration, int nbGeneration, double mutationProbability, int crossOverNumber) {
+        public GeneticAlgo(List<GeneticBoard> firstGeneration, int nbGeneration, double mutationProbability, int crossOverNumber, int numberQueens) {
             this.nbGeneration = nbGeneration;
             this.firstGeneration = firstGeneration;
             this.mutationProbability = mutationProbability;
             this.crossOverNumber = crossOverNumber;
+            this.numberQueens = numberQueens;
             this.FinesseStrategy = new NbQueenConflict();
         }
 
@@ -37,7 +38,7 @@ namespace Metier
             List<GeneticBoard> nextGeneration;
             currentGeneration = firstGeneration;
             this.XMin = this.firstGeneration[0];
-            this.FMin = this.FinesseStrategy.compute((GeneticBoard)XMin);
+            this.FMin = this.FinesseStrategy.compute((GeneticBoard)XMin, this.numberQueens);
             for (this.currentGenerationNumber = 0; this.currentGenerationNumber < this.nbGeneration; this.currentGenerationNumber++) {
                 nextGeneration = new List<GeneticBoard>();
                 nextGeneration.AddRange(this.reproduction(this.currentGeneration, this.currentGeneration.Count));
@@ -49,7 +50,7 @@ namespace Metier
             // update view
             foreach (GeneticBoard solution in currentGeneration)
             {
-                int fitness = this.FinesseStrategy.compute((GeneticBoard)solution);
+                int fitness = this.FinesseStrategy.compute((GeneticBoard)solution, this.numberQueens);
                 if (fitness <= FMin)
                 {
                     this.XMin = new GeneticBoard(solution.Positions, solution.N);

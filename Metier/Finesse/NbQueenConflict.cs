@@ -30,7 +30,7 @@ namespace Metier.Finesse
             return fitness;
         }
 
-        public int compute(GeneticBoard board)
+        public int compute(GeneticBoard board, int numberQueens)
         {
             /*int[] positions = board.Positions;
             int i,j,n;
@@ -42,6 +42,16 @@ namespace Metier.Finesse
                 }
             }*/
             int finesse = 0;
+
+            // check number of queens
+            int nb = 0;
+            for (int i = 0; i < board.N; i++)
+            {
+                nb += board.Positions[i];
+            }
+            if (nb != numberQueens)
+                return int.MaxValue;
+
 
             for (int index = 0; index < board.N; index++)
             {
