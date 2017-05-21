@@ -74,6 +74,7 @@ namespace Metier
                 fitnessTotal += fitness;
                 dictionnaryFitness.Add(solution, fitness);
                 if (fitness < FMin) {
+                    this.XMin = new GeneticBoard(solution.Positions, solution.N);
                     this.XMin = solution;
                     this.FMin = fitness;
                 }

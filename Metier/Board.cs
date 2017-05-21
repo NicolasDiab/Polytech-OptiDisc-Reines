@@ -26,7 +26,7 @@ namespace Metier
 
         public Board(int[] positions, int n)
         {
-            this.positions = positions;
+            this.positions = (int[])positions.Clone();
             this.n = n;
         }
 

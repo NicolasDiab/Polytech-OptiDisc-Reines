@@ -41,7 +41,7 @@ namespace Metier
             this.i = 0;
         }
 
-        protected /*override*/ void algo2()
+        protected override void algo()
         {
             this.init();
             Board x = this.x0;
@@ -88,7 +88,7 @@ namespace Metier
             }
         }
 
-        protected override void algo()
+        protected void algo2()
         {
             Random random = new Random();
             double temp = 10000;
@@ -126,9 +126,8 @@ namespace Metier
                         currentBoard = newBoard;
                         currentFinnesse = newFinnesse;
                     }
-                }
-
-
+                }               
+                   
                 temp *= 1 - coolingRate;
             }
 
