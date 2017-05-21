@@ -43,7 +43,7 @@ namespace PolytechOptDiscReines
 
             //this.algo = new SimulatedAnnealing(x0);
             
-            this.algo = new GeneticAlgo(GeneticBoard.getFirstGeneration(10, NUMBER_QUEENS), 100);
+            this.algo = new GeneticAlgo(GeneticBoard.getFirstGeneration(10, NUMBER_QUEENS), 100, 0.05, NUMBER_QUEENS * 1 / 4);
             this.thread = new Thread(new ThreadStart(this.algo.start));
             this.thread.Start();
             timer.Start();

@@ -14,12 +14,16 @@ namespace Metier
         private List<GeneticBoard> currentGeneration;
         private int nbGeneration;
         private int currentGenerationNumber;
+        private double mutationProbability;
+        public int crossOverNumber;
 
         public List<GeneticBoard> FirstGeneration { get => firstGeneration; set => firstGeneration = value; }
 
-        public GeneticAlgo(List<GeneticBoard> firstGeneration, int nbGeneration) {
+        public GeneticAlgo(List<GeneticBoard> firstGeneration, int nbGeneration, double mutationProbability, int crossOverNumber) {
             this.nbGeneration = nbGeneration;
             this.firstGeneration = firstGeneration;
+            this.mutationProbability = mutationProbability;
+            this.crossOverNumber = crossOverNumber;
             this.FinesseStrategy = new NbQueenConflict();
         }
 
@@ -36,10 +40,9 @@ namespace Metier
             this.FMin = this.FinesseStrategy.compute((GeneticBoard)XMin);
             for (this.currentGenerationNumber = 0; this.currentGenerationNumber < this.nbGeneration; this.currentGenerationNumber++) {
                 nextGeneration = new List<GeneticBoard>();
-                int numberReproduction = currentGeneration.Count * 2 / 3;
-                nextGeneration.AddRange(this.reproduction(this.currentGeneration, numberReproduction));
-                nextGeneration.AddRange(this.crossOver(this.currentGeneration, currentGeneration.Count - numberReproduction));
-                nextGeneration = this.mutation(this.currentGeneration, 0.05);
+                nextGeneration.AddRange(this.reproduction(this.currentGeneration, this.currentGeneration.Count));
+                nextGeneration = this.crossOver(this.currentGeneration, this.crossOverNumber);
+                nextGeneration = this.mutation(this.currentGeneration, this.mutationProbability);
                 this.currentGeneration = nextGeneration;
             }
         }
