@@ -10,10 +10,13 @@ namespace Metier
 {
     public class TabuMethod : Algo
     {
+        const int MAX_TABU = 10;
+
         private Board x0;
         private int nMax;
         private int currentN;
         private Dictionary<int, int> tabuList;
+
 
 
 
@@ -65,6 +68,10 @@ namespace Metier
                     if (deltaf >= 0)
                     {
                         this.tabuList.Add(y.Transition.Key, y.Transition.Value);
+                        if (tabuList.Count > MAX_TABU) {
+                            tabuList.Remove(tabuList.Keys.First());
+                        }
+                        
                     }
                     if (fy < this.FMin)
                     {

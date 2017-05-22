@@ -20,7 +20,7 @@ namespace PolytechOptDiscReines
         private System.Windows.Forms.Timer timer;
 
 
-        private const int NUMBER_QUEENS = 8;
+        private const int NUMBER_QUEENS = 20;
 
 
         public Form1()

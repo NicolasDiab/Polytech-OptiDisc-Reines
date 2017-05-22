@@ -54,6 +54,8 @@ namespace Metier
                     {
                         this.XMin = new GeneticBoard(solution.Positions, solution.N);
                         this.FMin = fitness;
+                        if (fitness == 0)
+                            return;
                     }
                 }
             }

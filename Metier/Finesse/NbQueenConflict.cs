@@ -50,7 +50,7 @@ namespace Metier.Finesse
                 nb += board.Positions[i];
             }
             if (nb != numberQueens)
-                return int.MaxValue;
+                return nb * board.N;
 
 
             for (int index = 0; index < board.N; index++)
